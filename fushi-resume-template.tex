@@ -4,18 +4,12 @@
 % Author: Kody
 % Repository: https://github.com/kodyyu1126/Chinese-resume-template-postgraduate
 % Compiler: XeLaTeX
-%
-% 快速修改指南：
-% 1. 在“个人信息头部”中替换姓名、联系方式、政治面貌和头像。
-% 2. 在“报考信息”中替换报考院校、专业和初试成绩。
-% 3. 在教育、项目、实习、校园经历与技能证书模块中增删示例内容。
-% 4. 如需调整样式，可修改下方的字体、页面边距与 sectioncolor 配置。
 % =============================================================================
 \documentclass[11pt,a4paper,fontset=none]{ctexart}
 
 % ── 字体设置 ──────────────────────────────────────────────
-% 若需在 Overleaf 使用自定义字体，可将已授权的字体文件放入 fonts/ 文件夹，
-% 并按 STSong.ttf、STHeiti.ttf、STKaiti.ttf 命名；macOS 本地默认使用系统华文系列。
+% 若需在 Overleaf 使用自定义字体，可将已授权的宋体文件放入 fonts/ 文件夹。
+% macOS 本地优先使用 Songti SC，英文字母统一使用 Times New Roman。
 \IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}
 
 \newif\ifuseuploadedcjkfonts
@@ -26,27 +20,23 @@
 }{}
 
 \newif\ifusesystemcjkfonts
-\IfFontExistsTF{STSong}{
-    \IfFontExistsTF{STHeiti}{
-        \IfFontExistsTF{STKaiti}{\usesystemcjkfontstrue}{}
-    }{}
-}{}
+\IfFontExistsTF{Songti SC}{\usesystemcjkfontstrue}{}
 
 \ifuseuploadedcjkfonts
     \setCJKmainfont[
         Path = fonts/,
-        BoldFont = STHeiti.ttf,
-        ItalicFont = STKaiti.ttf
+        BoldFont = STSong.ttf,
+        ItalicFont = STSong.ttf
     ]{STSong.ttf}
     \setCJKsansfont[Path = fonts/]{STHeiti.ttf}
     \setCJKmonofont[Path = fonts/]{STHeiti.ttf}
 \else\ifusesystemcjkfonts
     \setCJKmainfont[
-        BoldFont = STHeiti,
-        ItalicFont = STKaiti
-    ]{STSong}
-    \setCJKsansfont{STHeiti}
-    \setCJKmonofont{STHeiti}
+        BoldFont = {Songti SC},
+        ItalicFont = {Songti SC}
+    ]{Songti SC}
+    \setCJKsansfont{Songti SC}
+    \setCJKmonofont{Songti SC}
 \else
     \setCJKmainfont[
         BoldFont = Noto Sans CJK SC,
@@ -85,6 +75,7 @@
 \setkeys{Gin}{draft=false}
 \usepackage[export]{adjustbox}
 \usepackage{calc}
+\usepackage{tikz}
 
 % ── 表格 ─────────────────────────────────────────────────
 \usepackage{tabularx}
@@ -108,141 +99,150 @@
 \begin{document}
 % ============================================================
 
-% ── 个人信息头部：修改姓名、出生年月、电话、政治面貌和邮箱 ──
+% ── 个人信息头部 ──────────────────────────────────────────
 \noindent
-\begin{minipage}[t]{0.7\textwidth}
+\begin{minipage}[t]{\textwidth}
     \vspace*{-2.5em}
     \begin{center}
-        {\Huge\bfseries\color{sectioncolor} 姓 名} \\[1.5em]
-        \hspace{3em}
-        \begin{tabular}{@{}ll@{\hspace{2.5em}}ll@{}}
-            \textbf{出生年月：} & XXXX.XX   & \textbf{电话：} & 1XX-XXXX-XXXX \\[0.4em]
-            \textbf{政治面貌：} & 共产党员  & \textbf{邮箱：} & your.email@example.com \\
-        \end{tabular}
+        {\Huge\bfseries\color{sectioncolor} 葛飞翔} \\[0.9em]
+        \textbf{电话：}19857950790\hspace{1.5em}
+        \textbf{邮箱：}\href{mailto:marshall_gefxiang@163.com}{marshall\_gefxiang@163.com} \\[0.45em]
+        \textbf{研究兴趣：}大模型分布式系统；深度学习算法
     \end{center}
-\end{minipage}%
-\begin{minipage}[t]{0.3\textwidth}
-    \vspace*{-2.5em}
-    \begin{flushright}
-        \adjustbox{valign=t, raise=-0.7em}{
-            % 头像：替换为自己的图片；建议使用 3:4 左右的竖版证件照。
-            \includegraphics[width=2.8cm,height=3.3cm,keepaspectratio]{assets/profile-photo.png}
-        }
-    \end{flushright}
 \end{minipage}
+
+% 头像叠加在页面右上角，不影响顶部信息的居中对齐。
+\begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=north east, inner sep=0pt, xshift=-1.5cm, yshift=-1.5cm]
+        at (current page.north east) {\includegraphics[width=2.8cm,height=3.3cm,keepaspectratio]{assets/profile-photo.png}};
+\end{tikzpicture}
 
 \vspace{0.3em}
 
-% ── 报考信息：修改报考院校、专业与初试成绩 ────────────────
-\section*{报考信息}
+% ── 教育经历 ──────────────────────────────────────────────
+\section*{教育经历}
 \vspace{-0.3em}
 
 \noindent
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
-    \textbf{报考院校：XXXX大学} & \textbf{报考专业：XXXX专业} \\
-\end{tabular*}
+\entrytitle{中国科学院大学｜推免硕士研究生}
+\hfill\daterange{2025.09 \textasciitilde{} 至今}
 
-\vspace{0.4em}
+\par\noindent
+\textbf{人工智能}
 
 \noindent
-\begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X
-                              |>{\centering\arraybackslash}X
-                              |>{\centering\arraybackslash}X
-                              |>{\centering\arraybackslash}X
-                              |>{\centering\arraybackslash}X
-                              |>{\centering\arraybackslash}X|}
-\hline
-        \multirow{2}{*}{\textbf{初始成绩}} & 政治 & 英语（一） & 数学（一） & 专业课 & 总分 \\
-\cline{2-6}
- & - & - & - & - & \textbf{-} \\
-\hline
+\entrytitle{上海对外经贸大学｜本科}
+\hfill\daterange{2021.09 \textasciitilde{} 2025.06}
+
+\par\noindent
+\textbf{数据科学与大数据技术}
+
+\par\noindent
+$\bullet$ \textbf{学业表现：}GPA：3.74/4.00；专业排名：1/39；综测排名：2/153；CET-4：615；CET-6：554。
+
+\par\noindent
+$\bullet$ \textbf{相关课程：}算法导论（97）、人工智能（96）、深度学习（96）、数字图像处理（95）、分布式计算（95）。
+
+% ── 研究工作 ──────────────────────────────────────────────
+\section*{研究工作}
+\vspace{-0.1em}
+
+\noindent
+\entrytitle{Using Domain Adapter and Prompt Learner for Few-shot Teaching Action Recognition in videos}
+
+\par\noindent
+$\bullet$ \textbf{论文信息：}Feixiang Ge, Xinlei Li, Yan Rong, et al.，IJCNN 2025，Accepted, to be published；第一作者，CCF-C。
+
+\par\noindent
+$\bullet$ \textbf{方法贡献：}提出基于 CLIP 视觉-语言大模型的 TBA-CLIPNet，面向小样本及零样本识别；引入领域适配器弥补预训练大模型与下游任务间的语义鸿沟，构建提示模板学习器从图像特征中自动学习提示模板；设计教师目标识别算法 TD，并利用时空自注意力机制提取视频时序信息。
+
+\par\noindent
+\entrytitle{A Hybrid CNN-Transformer Network for Fine-Grained Tongue Multi-Attribute Classification with Tongue Group Attribute Mask Training in Traditional Chinese Medicine Diagnosis}
+
+\par\noindent
+$\bullet$ \textbf{论文信息：}Liu J, Ge F, Li F, et al.，International Conference on Intelligent Computing，Springer Nature Singapore，2025：467--479；共同一作，CCF-C。
+
+\par\noindent
+\entrytitle{可拓基元提取以及可拓知识论坛系统}
+\hfill\daterange{软件著作权}
+
+\par\noindent
+$\bullet$ \textbf{登记号：}2024SR0643195；第一著作权人。
+
+% ── 业界工作 ──────────────────────────────────────────────
+\section*{业界工作}
+\vspace{-0.1em}
+
+\noindent
+\entrytitle{百度｜混合云模型适配组｜模型适配与推理性能优化}
+\hfill\daterange{2026.02 \textasciitilde{} 至今}
+
+\par\noindent
+\entrytitle{DeepSeek-V3.2 单机与 PD 分离推理调优}
+
+\par\noindent
+$\bullet$ \textbf{性能优化：}面向昆仑芯 P800，基于 SGLang 与 vLLM-Kunlun 对齐算子链路，围绕 NSA Indexer、MTP/投机解码和上下文并行开展细粒度打点、框架逻辑对齐与关键函数优化；相关 NSA Indexer BF16 优化已合入。
+
+\par\noindent
+$\bullet$ \textbf{量化结果：}单机性能较原准出版本大幅提升，在不同并发与输入长度场景均取得显著收益。PD 分离 Router 方案较上一版提升 10\%--70\%，上下文并行使短文本性能平均提升约 30\%；定位投机解码导致的乱码问题并通过关闭相关路径恢复精度。
+
+\par\noindent
+\entrytitle{P800 大模型适配与客户场景准出}
+
+\par\noindent
+$\bullet$ \textbf{模型适配：}完成 Qwen3/Qwen3.5 系列模型的推理适配、性能精度验证和准出文档；定位 prompt\_logprobs 算子兼容、vLLM 版本差异、prefix cache、CUDA Graph、xgrammar 与 XCCL 等问题。
+
+\par\noindent
+$\bullet$ \textbf{场景覆盖：}参与 ASR、Grounding SAM、OpenFold/SAM3、BEVFormer 等模型在 P800 上的训练或推理适配；针对长文本与超长上下文需求，推进显存管理、量化模型和推理链路优化。
+
+\par\noindent
+\entrytitle{vLLM-Omni 升级与多模态推理优化}
+
+\par\noindent
+$\bullet$ \textbf{框架升级：}重构 Kunlun Plugin 与开源 vLLM-Omni 的 patch 解耦方式，同步上游特性，输出标准镜像与 SOP；完成 Wan、Qwen-Image、GLM-Image、Qwen-Image-Edit 等多个模型的适配和初步精度/性能准出，整体调优提升 50\%--100\%+。
+
+\par\noindent
+$\bullet$ \textbf{性能结果：}Wan 系列文本到视频模型推理耗时大幅下降；GLM-Image 达到 H20 的 80\%--100\% 性能且精度符合预期，Qwen-Image-Edit 达到 H20 的 50\%。
+
+\par\noindent
+\newpage
+\entrytitle{Dynamo 分布式推理与 HiCache 性能分析}
+
+\par\noindent
+$\bullet$ \textbf{工程落地：}完成 Dynamo 源码编译与部署，搭建 SGLang + HiCache + Dynamo 环境，验证 GLM 系列模型；修复 KV-aware 模式 DP rank 不一致导致的 Hang，解决前缀复用调度失效问题：修正 SGLang KV event 发布逻辑，完善 Dynamo 侧 event key（worker\_id、DP rank）管理；完成 HiCache 端到端测试，并调研 fast tokenization。
+
+\par\noindent
+$\bullet$ \textbf{性能分析：}在 Dynamo 与 Router 两侧注入 Prometheus 指标，拆解 tokenize、transport、dispatch、route 阶段；GLM 系列测试显示 TPOT 稳定提升 10\%+，短文本 TTFT 提升 5\%--20\%，总吞吐有收益，并形成 Dynamo 方案进度与准出材料。
+
+\par\noindent
+\entrytitle{vLLM-Kunlun 开源贡献与平台提效}
+
+\par\noindent
+$\bullet$ \textbf{开源贡献：}围绕 vLLM-Kunlun Workspace Manager 与昆仑芯显存管理提交并合入 \href{https://github.com/baidu/vLLM-Kunlun/pull/283/changes}{PR 283}；协助完成量化 patch 对齐及 Triton 算子替换（\href{https://github.com/baidu/vLLM-Kunlun/pull/409}{PR 409}、\href{https://github.com/baidu/vLLM-Kunlun/pull/351}{PR 351}、\href{https://github.com/baidu/vLLM-Kunlun/pull/381}{PR 381}）。
+
+\par\noindent
+$\bullet$ \textbf{标准化与赋能：}迭代 LLM 部署 SOP Skill 与准出 Agent，自动化模型部署、性能/精度测试和结构化报告生成；编写 vLLM-Omni、DiT 优化、Dynamo 进度等技术材料，提升模型适配与交付效率。
+
+\noindent
+\entrytitle{eBay 软件工程有限公司｜AI Platform｜机器学习工程师（Intern）}
+\hfill\daterange{2024.10 \textasciitilde{} 2025.08}
+
+\par\noindent
+$\bullet$ \textbf{平台工程：}深入实践 Ray Data、Ray Serve 等组件，解决多类型资源标签调度和 PyArrow 内存泄漏问题；相关修复已合入公司内部 Ray 分支（\href{https://github.com/ray-project/ray/pull/49124}{PR 49124}、\href{https://github.com/ray-project/ray/pull/49756}{PR 49756}）。
+
+\par\noindent
+$\bullet$ \textbf{推理与工作流：}修复 KubeRay 资源调度缺陷使 GPU 利用率翻倍，参与 AI 工作流框架开发，并探索 LLM 强化学习训练的资源需求、GPU 利用率与数据吞吐。
+
+% ── 荣誉情况 ──────────────────────────────────────────────
+\section*{荣誉情况}
+\vspace{-0.1em}
+
+\noindent
+\begin{tabularx}{\textwidth}{@{}X X@{}}
+    $\bullet$ 2024 年度上海市奖学金 & $\bullet$ 第十四届蓝桥杯国赛三等奖（国家级） \\
+    $\bullet$ 全国大学生市场调查分析大赛三等奖（国家级） & $\bullet$ 上海对外经贸大学优秀毕业生 \\
+    $\bullet$ 美国大学生数学建模竞赛 H 奖（国际级） & $\bullet$ 2023--2024 爱建特种基金会奖学金 \\
+    $\bullet$ 国科大杭州高等研究院新生奖学金 & $\bullet$ 上海对外经贸大学优秀共青团员
 \end{tabularx}
-
-\vspace{0.6em}
-
-% ── 教育背景：替换学校、专业、时间、GPA、排名和主修课程 ──
-\section*{教育背景}
-\vspace{-0.3em}
-
-\noindent
-\begin{tabular}{@{}p{7cm}@{}}
-    \textbf{示例大学}
-\end{tabular}
-\begin{tabular}{@{}p{7cm}@{}}
-    \textbf{示例专业}
-\end{tabular}
-\hfill\textbf{20XX.09 \textasciitilde{} 20XX.06}
-
-\par\noindent
-$\bullet$ \textbf{GPA：}X.XX/X.X \hspace{4em} \textbf{专业排名：}前X\%
-
-\par\noindent
-$\bullet$ \textbf{主修课程：}课程一、课程二、课程三、课程四、课程五等。
-
-% ── 项目经历：按“项目名称｜角色 + 时间 + 要点”格式增删 ────
-\section*{项目经历}
-\vspace{-0.1em}
-
-% 项目一
-\noindent
-\entrytitle{基于GARCH-VaR模型的白酒行业风险度量与风险预测｜ 毕业设计}
-\hfill \daterange{2025.10 \textasciitilde{} 2026.03}
-
-\par\noindent
-$\bullet$ \textbf{数据建模：}基于2020–2023年白酒行业8只股票数据（贵州茅台等），完成数据清洗与对数收益率构建，运用Matlab和Stata构建GARCH和EGARCH模型，通过最大似然估计参数进行求解与模型优化。
-
-\par\noindent
-$\bullet$ \textbf{风险预测：}采用VaR方法预测风险，在多置信水平下计算日度潜在损失，通过回测及RMSE、MAE指标验证模型；结合行业事件分析波动率变化，对比不同梯队股票风险特征，提出投资与风险预警建议。
-
-% 项目二
-\noindent
-\entrytitle{基于优化算法的农作物种植策略研究（数学建模） ｜ 负责人}
-\hfill \daterange{2024.09}
-
-\par\noindent
-$\bullet$ \textbf{模型构建：}基于乡村54块耕地与41类农作物数据，构建以利润最大化为目标的多约束优化模型（地块匹配、面积限制等），采用遗传算法（DEAP库）求解，经200次迭代收敛，得出2024-2030最优种植策略。
-
-\par\noindent
-$\bullet$ \textbf{优化分析：}在不确定性条件下进一步引入鲁棒优化与双目标建模（收益最大化+风险最小化），结合Spearman分析刻画销售量、价格与成本的相关性，与基准模型对比，收益提升15\%。
-
-% ── 实习经历：替换单位、岗位、时间与可量化成果 ────────────
-\section*{实习经历}
-\vspace{-0.1em}
-
-\noindent
-\entrytitle{XX银行XX支行 ｜ 实习生}
-\hfill \daterange{2026.02 \textasciitilde{} 2026.03}
-
-\par\noindent
-$\bullet$ \textbf{客户服务：}协助大堂经理客户分流与接待，主动引导客户取号并分流至对应柜台/智慧柜员机办理业务，耐心解答基础金融咨询并指导操作；日均接待客户80余人，显著提高了网点运营效率与客户满意度。
-\par\noindent
-$\bullet$ \textbf{运营支持：}负责日常单据整理、资料归档及信息录入等运营支持工作，确保账户开户、对公业务、信贷申请等关键流程的文档完整性与合规性；日均处理100份单据，数据录入准确率达100\%（零误差）。
-
-% ── 校园经历：替换学生工作、社团或志愿服务经历 ────────────
-\section*{校园经历}
-\vspace{-0.1em}
-
-\noindent
-\entrytitle{2022级金融工程1班 ｜ 团支书}
-\hfill \daterange{2022.09 \textasciitilde{} 2023.09}
-
-\par\noindent
-$\bullet$ \textbf{组织管理：}负责班级团支部日常团务工作，组织开展政治理论学习、主题团日和团课活动8次，推进团员思想教育与班级凝聚力建设；协助完成团员发展、材料整理与信息传达。
-
-\noindent
-\entrytitle{校团委学生会 ｜ 社团管理监督部干事}
-\hfill \daterange{2023.09 \textasciitilde{} 2024.9}
-
-\par\noindent
-$\bullet$ \textbf{活动管理：}负责跟进社团活动执行，监督流程规范性及经费合规性，参与现场考勤、资料记录与反馈收集，协助推动活动整改与优化；积极参与各类社团及志愿活动，个人累计志愿服务时长98h。
-
-% ── 技能证书：替换证书、软件技能和荣誉奖项 ────────────────
-\section*{技能证书}
-\vspace{-0.1em}
-\noindent $\bullet$ \textbf{专业证书：}CET-4、CET-6（495分）、计算机MS office二级、普通话二级乙等。
-
-\noindent $\bullet$ \textbf{专业技能：}Python、Matlab、SPSS；熟练使用WPS、Office等办公软件。
-
-\noindent $\bullet$ \textbf{在校荣誉：}“电工杯”全国大学生数学建模竞赛国家级三等奖、全国大学生数学建模竞赛省级一等奖、“东方财富杯”全国大学生金融挑战赛省级二等奖、优秀学生奖学金一等奖、优秀共青团员、优秀工作者。
 
 \end{document}
